@@ -12,12 +12,18 @@ app.use(express.json());
 app.use(cors());
 
 // 1) Create MySQL connection (local DB)
+// ... imports
+
+// 1) Create MySQL connection (Dynamic for Cloud)
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",          // change if your user is different
-  password: "sql@1234",          // add your password if you have one
-  database: "simple_app" // the DB we created earlier
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "sql@1234",
+  database: process.env.DB_NAME || "simple_app",
+  port: process.env.DB_PORT || 3306
 });
+
+// ... rest of the code is fine
 
 // 2) Connect to MySQL
 db.connect(err => {
